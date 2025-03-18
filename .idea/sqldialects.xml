@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/ciclos.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/CICLOS.sql" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/conce.sql" dialect="MariaDB" />
-    <file url="file://$PROJECT_DIR$/listas.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/consultas.sql" dialect="MariaDB" />
   </component>
 </project>
