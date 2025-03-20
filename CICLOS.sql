@@ -142,7 +142,7 @@ INSERT INTO CICLOS_CURSO VALUES(5,2,'A','2ESPVIDEO');
 INSERT INTO CICLOS_CURSO VALUES(6,1,'A','1DAWSEMI');
 INSERT INTO CICLOS_CURSO VALUES(6,2,'A','2DAWSEMI');
 
---PROFESORES--
+/*PROFESORES*/
 
 
 ALTER TABLE CICLOS_PROFESORES DROP FOREIGN KEY FK_DEPARTAMENTO;
@@ -182,25 +182,28 @@ INSERT INTO CICLOS_PROFESORES(NOMBRE, DEPARTAMENTO) VALUES ('Juan Carlos Gómez'
 INSERT INTO CICLOS_PROFESORES(NOMBRE, DEPARTAMENTO) VALUES ('Tasio Mateos', 'Informática');
 INSERT INTO CICLOS_PROFESORES(NOMBRE, DEPARTAMENTO) VALUES ('Prof. Inf. 19', 'Informática');
 INSERT INTO CICLOS_PROFESORES(NOMBRE, DEPARTAMENTO) VALUES ('Inma Climent', 'FOL');
+SELECT * FROM CICLOS_PROFESORES;
+
+/*modulo*/
 
 
---MODULO--
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','Sandra Deltell','LENM');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','Inma Climent','FOL');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','Ricardo Cantó','Entornos de Desarrollo');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','Lidia Cerdán','Inglés');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','Sandra Deltell','Base de Datos');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','David Ponce','Sistemas Informáticos');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','Ricardo Cantó','Programación');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('1DAMA','Ricardo Cantó','Tutoría');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Lidia Cerdán','Inglés');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Godofredo Folgado','PSER');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Marga Martínez','EIE');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Javi Llorens','PMUL');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Roberto Bernabéu','SGES');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Ricardo Cantó','AD');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Miguel Sánchez','DINT');
-INSERT INTO CICLOS_MODULO(curso,profesor,nombre) VALUES('2DAMA','Miguel Sánchez','Tutoría');
+
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','Sandra Deltell','LENM', 25);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','Inma Climent','FOL', 22);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','Ricardo Cantó','Entornos de Desarrollo', 30);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','Lidia Cerdán','Inglés', 20);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','Sandra Deltell','Base de Datos', 27);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','David Ponce','Sistemas Informáticos', 32);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','Ricardo Cantó','Programación', 35);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('1DAMA','Ricardo Cantó','Tutoría', 12);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Lidia Cerdán','Inglés', 20);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Godofredo Folgado','PSER', 25);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Marga Martínez','EIE', 22);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Javi Llorens','PMUL', 30);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Roberto Bernabéu','SGES', 27);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Ricardo Cantó','AD', 32);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Miguel Sánchez','DINT', 35);
+INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Miguel Sánchez','Tutoría', 12);
 --DEPARTAMENTO--
 INSERT INTO CICLOS_DEPARTAMENTO VALUES (1,'Informática','Ricardo Lucas');
 INSERT INTO CICLOS_DEPARTAMENTO VALUES (2,'Inglés','José Manuel Cano');
@@ -217,6 +220,13 @@ INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Mark
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Jeff','Bezos',STR_TO_DATE('10/05/1991','%d/%m/%Y'),'1DAMA');
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Dennis','Ritchie',STR_TO_DATE('20/01/1992','%d/%m/%Y'),'1DAMA');
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Alan','Turing',STR_TO_DATE('30/12/1986','%d/%m/%Y'),'1DAMA');
+INSERT INTO CICLOS_ALUMNO (NOMBRE, APELLIDOS, FECHA_NACIMIENTO, CICLO) VALUES
+                                                                           ('Juan', 'Pérez', STR_TO_DATE('15/05/2000', '%d/%m/%Y'), '1SMRA'),
+                                                                           ('María', 'García', STR_TO_DATE('20/08/2001', '%d/%m/%Y'), '1SMRA'),
+                                                                           ('Carlos', 'López', STR_TO_DATE('10/12/1999', '%d/%m/%Y'), '1SMRA'),
+                                                                           ('Ana', 'Martínez', STR_TO_DATE('05/03/2002', '%d/%m/%Y'), '1SMRA'),
+                                                                           ('Luis', 'Rodríguez', STR_TO_DATE('25/07/2000', '%d/%m/%Y'), '1SMRA');
+
 SELECT * FROM CICLOS_ALUMNO;
 --TRIMESTRE--
 
