@@ -1,9 +1,3 @@
---ESTE ES EL SQL--
-CREATE SEQUENCE AUTO_INCREMENT_ALUMNO START WITH 11111114 INCREMENT BY 1;
-
-
-
-CREATE SEQUENCE AUTO_INCREMENT_PROFESOR START WITH 11111111 INCREMENT BY 1;
 
 
  
@@ -99,18 +93,17 @@ CREATE TABLE CICLOS_EVALUACION(
 
 
 
---EJERCICIOS--
+/*EJERCICIOS*/
 
 
-
---CICLO--
+/*CICLOS*/
 INSERT INTO CICLOS_CICLO(nombre, descripcion) VALUES ('CFGM SMR','Sistemas microinformáticos y redes');
 INSERT INTO CICLOS_CICLO(nombre) VALUES ('CFGS ASIR');
 INSERT INTO CICLOS_CICLO(nombre) VALUES ('CFGS DAW');
 INSERT INTO CICLOS_CICLO(nombre) VALUES ('CFGS DAM');
 INSERT INTO CICLOS_CICLO(nombre) VALUES ('Curso especialización de videojuegos');
 INSERT INTO CICLOS_CICLO(nombre) VALUES ('CFGS DAW Semipresencial');
---CURSO--
+/*CURSO*/
 
 
 INSERT INTO CICLOS_CURSO VALUES(1,1,'A','1SMRA');
@@ -204,13 +197,15 @@ INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Rober
 INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Ricardo Cantó','AD', 32);
 INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Miguel Sánchez','DINT', 35);
 INSERT INTO CICLOS_MODULO(curso,profesor,nombre,nhorassem) VALUES('2DAMA','Miguel Sánchez','Tutoría', 12);
---DEPARTAMENTO--
+
+
+/*DEPARTAMENTO*/
 INSERT INTO CICLOS_DEPARTAMENTO VALUES (1,'Informática','Ricardo Lucas');
 INSERT INTO CICLOS_DEPARTAMENTO VALUES (2,'Inglés','José Manuel Cano');
 INSERT INTO CICLOS_DEPARTAMENTO VALUES (3,'FOL','Marga Martínez');
 ALTER TABLE CICLOS_PROFESORES ADD CONSTRAINT FK_DEPARTAMENTO FOREIGN KEY(DEPARTAMENTO) REFERENCES CICLOS_DEPARTAMENTO(NOMBRE);
---ALUMNOS--
 
+/*ALUMNOS*/
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Bill','Gates',STR_TO_DATE('20/09/1995','%d/%m/%Y'),'1DAMA');
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('James','Cameron',STR_TO_DATE('23/07/1993','%d/%m/%Y'),'1DAMA');
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Steve','Jobs',STR_TO_DATE('21/12/1998','%d/%m/%Y'),'1DAMA');
@@ -228,24 +223,24 @@ INSERT INTO CICLOS_ALUMNO (NOMBRE, APELLIDOS, FECHA_NACIMIENTO, CICLO) VALUES
                                                                            ('Luis', 'Rodríguez', STR_TO_DATE('25/07/2000', '%d/%m/%Y'), '1SMRA');
 
 SELECT * FROM CICLOS_ALUMNO;
---TRIMESTRE--
+/*TRIMESTRE*/
 
 INSERT INTO CICLOS_TRIMESTRE(NOMBRE,FECHA) VALUES('1er trimestre 22/33',STR_TO_DATE('22/12/2022','%d/%m/%Y'));
 INSERT INTO CICLOS_TRIMESTRE(NOMBRE,FECHA) VALUES('2º trimestre 22/33',STR_TO_DATE('16/03/2023','%d/%m/%Y'));
 INSERT INTO CICLOS_TRIMESTRE(NOMBRE,FECHA) VALUES('3er trimestre 22/33',STR_TO_DATE('19/06/2023','%d/%m/%Y'));
---J--
+/*J*/
 INSERT INTO CICLOS_EVALUACION(alumno,E1er_trimestre) VALUES(11111118,5.6);
 INSERT INTO CICLOS_EVALUACION(alumno,E1er_trimestre) VALUES(11111120,8.2);
 INSERT INTO CICLOS_EVALUACION(alumno,E1er_trimestre) VALUES(11111121,3.4);
 SELECT * FROM CICLOS_ALUMNO;
---K--
+/*K*/
 UPDATE CICLOS_MODULO 
 SET PROFESOR='Ramón Galinsoga'
 WHERE CURSO='1DAMA' AND nombre='Tutoría';
 UPDATE CICLOS_MODULO 
 SET PROFESOR='Sandra Deltell'
 WHERE CURSO='2DAMA' AND nombre='Tutoría';
---l--
+/*L*/
 
 UPDATE CICLOS_PROFESORES
 SET FECHA_NACIMIENTO=STR_TO_DATE('15-12-1966','%d-%m-%Y')
@@ -282,18 +277,18 @@ WHERE NOMBRE='Juan José Vidal';
 UPDATE CICLOS_PROFESORES
 SET FECHA_NACIMIENTO=STR_TO_DATE('10-07-1979','%d-%m-%Y')
 WHERE NOMBRE='David Ponce';
---M
+/*M*/
 UPDATE CICLOS_EVALUACION
 SET E1er_trimestre = E1er_trimestre + 1
 WHERE E1er_trimestre >=5;
 
 
---N
+/*N*/
 /*
 En ciclos curso le he añadido unique a Abreviatura para después hacer una FK en ciclos_modulo.
 He añadido varias secuencias para auto incrementar valores, he añadido ciclos_modulo, ya que mi DLL no lo tenía.
 Añadí la columna CICLO a CICLOS_ALUMNO, cree la tabla CICLOS_TRIMESTRE, porque no la tenía tampoco y añadí los trimestres a CICLOS_EVALUACION.
 */
---M
---Añadiría una entidad Matriculación para que se pueda almacenar la fecha de matriculación y el alumno para tener la matrícula también almacenada.
+/*M*/
+/*Añadiría una entidad Matriculación para que se pueda almacenar la fecha de matriculación y el alumno para tener la matrícula también almacenada.
 
