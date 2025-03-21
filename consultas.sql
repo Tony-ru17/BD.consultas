@@ -199,12 +199,15 @@ ORDER BY grupo.FDISOLUCION;
 muerte de Elvis Presley ordenado por fecha de creación*/
 
 SELECT artista.NOMBREARTISTICO
-FROM LISTAS_ARTISTA artista,LISTAS_ARTISTAIND artistaind,LISTAS_GRUPO grupo
+FROM LISTAS_ARTISTA artista,LISTAS_GRUPO grupo
 WHERE grupo.COD=artista.COD
-AND artista.COD=artistaind.COD
-AND artistaind.FNAC >(SELECT FMUERTE
+AND grupo.FCREACION > (SELECT FMUERTE
      FROM LISTAS_ARTISTAIND artistaind, LISTAS_ARTISTA artista
      WHERE artista.COD=artistaind.COD
      AND artista.NOMBREARTISTICO='Elvis Presley');
+
+
+
+
 
 
