@@ -10,7 +10,8 @@ SMR y que hayan nacido después del año 2001 ordenados por
 nombre.*/
 SELECT NOMBRE,APELLIDOS
 FROM CICLOS_ALUMNO
-WHERE CICLO LIKE '1SMR_' AND FECHA_NACIMIENTO> '2001-1-1';
+WHERE CICLO LIKE '1SMR_' AND FECHA_NACIMIENTO> '2001-1-1'
+ORDER BY NOMBRE;
 
 /*3. Muestra los nombres, los apellidos y la fecha de nacimiento de todos
 aquellos profesores que pertenezcan al mismo departamento que
@@ -127,7 +128,7 @@ FROM CONCE_COCHE coche, CONCE_VENTAS ventas
 WHERE ventas.FECHA BETWEEN '2019-8-1' AND '2019-8-31'
 AND coche.MARCA IN ('KIA','Seat','BMW')
 AND coche.CODIGO=ventas.COCHE
-ORDER BY coche.MARCA AND ventas.COCHE;
+ORDER BY coche.MARCA, ventas.COCHE;
 
 /*LISTAS*/
 
@@ -135,7 +136,7 @@ ORDER BY coche.MARCA AND ventas.COCHE;
 de los artistas independientes cuyo país sea Estados Unidos.*/
 
 
-SELECT artista.NOMBREARTISTICO "Nombre Artístico", artistaind.nombreReal, ciudad.NOMBRE
+SELECT artista.NOMBREARTISTICO "Nombre Artístico", artistaind.nombreReal "Nombre Real", ciudad.NOMBRE "Ciudad"
 FROM LISTAS_ARTISTA artista, LISTAS_ARTISTAIND artistaind, LISTAS_PAIS pais, LISTAS_PROVINCIA_ESTADO proves, LISTAS_CIUDAD ciudad
 WHERE artistaind.COD = artista.COD
 AND artista.COD_CIUDAD=ciudad.COD
@@ -172,7 +173,7 @@ SELECT cancion.TITULO, genero.NOMBRE
 FROM LISTAS_CANCION cancion, LISTAS_GENERO genero, LISTAS_GENERO_CANCION gencan
 WHERE cancion.COD=gencan.COD_CANCION
 AND gencan.COD_GENERO = genero.COD
-AND genero.NOMBRE LIKE '%rock%';
+AND LOWER(genero.NOMBRE) LIKE '%rock%';
 
 /*5. Lista el nombre artístico, la fecha de nacimiento y la fecha de la muerte
 de los artistas independientes que hayan muerto y que nacieron
@@ -204,7 +205,8 @@ WHERE grupo.COD=artista.COD
 AND grupo.FCREACION > (SELECT FMUERTE
      FROM LISTAS_ARTISTAIND artistaind, LISTAS_ARTISTA artista
      WHERE artista.COD=artistaind.COD
-     AND artista.NOMBREARTISTICO='Elvis Presley');
+     AND artista.NOMBREARTISTICO='Elvis Presley')
+ORDER BY grupo.FCREACION;
 
 
 
