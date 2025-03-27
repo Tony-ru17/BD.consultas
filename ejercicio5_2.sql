@@ -56,11 +56,8 @@ ORDER BY SALARIO DESC;
 /*5. (0.5) Basándote en la consulta anterior, muestra el máximo, el mínimo
 y el salario medio de los profesores de la tabla, este último con dos
 decimales.*/
-SELECT MAX(2000 + 46 * FLOOR(antig / 3.0) ) "SALARIO MAXIMO", MIN(2000 + 46 * FLOOR(antig / 3) ) "SALARIO MINIMO",ROUND(AVG(2000 + 46 * FLOOR(antig / 3)),2) "MEDIA"
+SELECT MAX(salario ) "SALARIO MAXIMO", MIN(salario) "SALARIO MINIMO",ROUND(AVG(salario),2) "MEDIA"
 FROM CICLOS_PROFESORES;
-
-
-
 
 /*-------------CONCESIONARIO*/
 
@@ -71,13 +68,38 @@ b. Concesionario: es el nombre del concesionario.
 c. Coche: es una columna que contiene la Marca y el nombre del
 coche, separados por un espacio*/
 
+SELECT distr.CANTIDAD AS CANTIDAD, conce.NOMBRE AS Concesionario, CONCAT(marca.NOMBRE,' ',coche.NOMBRE) AS Coche
+FROM CONCE_DISTRIBUCION distr, CONCE_CONCESIONARIO conce, CONCE_COCHE coche, CONCE_MARCA marca
+WHERE distr.CONCESIONARIO=conce.CIF
+AND distr.COCHE=coche.CODIGO
+AND coche.MARCA=marca.NOMBRE
+AND distr.cantidad=(SELECT MAX(CANTIDAD)
+                    FROM CONCE_DISTRIBUCION);
+
+
 /*2. (0,5) ¿Cuántos coches distintos se han vendido?*/
+
+SELECT COUNT(DISTINCT COCHE)
+FROM CONCE_DISTRIBUCION;
 /*3. Necesitamos crear contraseñas web seguras para todos los
 concesionarios. ¿Qué tal si cogemos sus nombres y sustituimos las ‘A’
 por ‘4’, las ‘E’ por ‘3’, las ‘I’ por ‘1’ las ‘O’ por ‘0’ y las ‘T’ por ‘7’?
 Asegúrate para ello que el nombre está en mayúsculas y, si hubiera
 algún acento, no sería el mismo carácter, así que no se tiene en
 cuenta.*/
+ALTER TABLE CONCE_CONCESIONARIO
+ADD contraseña VARCHAR(50) GENERATED ALWAYS AS (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(UPPER(NOMBRE),'T','7'),'O','0'),'I','1'),'E','3'),'A','4')) ;
+SELECT contraseña FROM CONCE_CONCESIONARIO;
 /*4. Calcula el precio total, el precio mínimo, el precio máximo y el precio
 medio de todos los coches.*/
+SELECT TRUNCATE(SUM(PRECIO_BASE),0) 'Total', TRUNCATE(MIN(PRECIO_BASE),0) 'Mínimo',TRUNCATE(MAX(PRECIO_BASE),0) 'Máximo', TRUNCATE(AVG(PRECIO_BASE),0) 'Media'
+FROM CONCE_COCHE;
 /*-------------BDLISTAS*/
+/*1. De los artistas, visualiza el nombre artístico, el último carácter del
+nombre artístico que no sea blanco y el número de caracteres del
+nombre artístico (sin contar los blancos de la derecha) ordenados por
+el nombre artístico, de aquellos artistas que empiecen por J.*/
+
+/*2. Muestra el nombre artístico de todos los artistas individuales que ya no
+están entre nosotros, y la edad a la que murieron ordenado por edad.*/
+
