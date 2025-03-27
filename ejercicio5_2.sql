@@ -1,10 +1,13 @@
 /*-------------DUAL*/
 SELECT UPPER(DATE_FORMAT((STR_TO_DATE('010712','%d%m%y')),'%M')) 'Fecha' FROM DUAL;
+/*
 +-------+
 | Fecha |
 +-------+
 | JULIO |
 +-------+
+*/
+
 
 
 /*-------------CICLOS FORMATIVOS*/
@@ -99,7 +102,11 @@ FROM CONCE_COCHE;
 nombre artístico que no sea blanco y el número de caracteres del
 nombre artístico (sin contar los blancos de la derecha) ordenados por
 el nombre artístico, de aquellos artistas que empiecen por J.*/
-
+SELECT NOMBREARTISTICO,RTRIM(NOMBREARTISTICO),SUBSTR(NOMBREARTISTICO,CHAR_LENGTH(RTRIM(NOMBREARTISTICO)))'Último caracter',CHAR_LENGTH(RTRIM(NOMBREARTISTICO)) 'Longitud'
+FROM LISTAS_ARTISTA;
 /*2. Muestra el nombre artístico de todos los artistas individuales que ya no
 están entre nosotros, y la edad a la que murieron ordenado por edad.*/
-
+SELECT artista.NOMBREARTISTICO, TIMESTAMPDIFF(YEAR,FNAC,FMUERTE)
+FROM LISTAS_ARTISTA artista,LISTAS_ARTISTAIND artistaind
+WHERE artista.COD=artistaind.COD
+AND artistaind.FMUERTE IS NOT NULL ;
