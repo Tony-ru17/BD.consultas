@@ -102,8 +102,11 @@ FROM CONCE_COCHE;
 nombre artístico que no sea blanco y el número de caracteres del
 nombre artístico (sin contar los blancos de la derecha) ordenados por
 el nombre artístico, de aquellos artistas que empiecen por J.*/
-SELECT NOMBREARTISTICO,RTRIM(NOMBREARTISTICO),SUBSTR(NOMBREARTISTICO,CHAR_LENGTH(RTRIM(NOMBREARTISTICO)))'Último caracter',CHAR_LENGTH(RTRIM(NOMBREARTISTICO)) 'Longitud'
-FROM LISTAS_ARTISTA;
+
+SELECT NOMBREARTISTICO,RIGHT(RTRIM(NOMBREARTISTICO),1) 'Último caracter',CHAR_LENGTH(RTRIM(NOMBREARTISTICO)) 'Longitud'
+FROM LISTAS_ARTISTA
+WHERE NOMBREARTISTICO LIKE 'J%'
+ORDER BY NOMBREARTISTICO;
 /*2. Muestra el nombre artístico de todos los artistas individuales que ya no
 están entre nosotros, y la edad a la que murieron ordenado por edad.*/
 SELECT artista.NOMBREARTISTICO, TIMESTAMPDIFF(YEAR,FNAC,FMUERTE)
