@@ -90,6 +90,24 @@ CREATE TABLE CICLOS_EVALUACION(
     E3er_trimestre NUMERIC(3,1),
     CONSTRAINT FK_EVALUACION_ALUMNO FOREIGN KEY(alumno) REFERENCES CICLOS_ALUMNO(NIA)
 );
+CREATE TABLE CICLOS_NOTAS_MODULO (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    ALUMNO INT NOT NULL,
+    MODULO INT NOT NULL,
+    EVALUACION INT NOT NULL,
+    NOTA NUMERIC(3,1),
+    CONSTRAINT FK_NOTAS_ALUMNO FOREIGN KEY(ALUMNO) REFERENCES CICLOS_ALUMNO(NIA),
+    CONSTRAINT FK_NOTAS_MODULO FOREIGN KEY(MODULO) REFERENCES CICLOS_MODULO(codigo),
+    CONSTRAINT FK_NOTAS_EVALUACION FOREIGN KEY(EVALUACION) REFERENCES CICLOS_TRIMESTRE(CODIGO)
+);
+
+
+INSERT INTO CICLOS_NOTAS_MODULO (ALUMNO, MODULO, EVALUACION, NOTA) VALUES
+(11111113, 1, 1, 7.5),
+(11111114, 2, 1, 6.8),
+(11111115, 3, 1, 9.0),
+(11111116, 4, 1, 5.4),
+(11111117, 5, 1, 8.2);
 
 
 
@@ -221,11 +239,18 @@ INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Jeff
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Dennis','Ritchie',STR_TO_DATE('20/01/1992','%d/%m/%Y'),'1DAMA');
 INSERT INTO CICLOS_ALUMNO(NOMBRE,APELLIDOS,FECHA_NACIMIENTO,CICLO) VALUES ('Alan','Turing',STR_TO_DATE('30/12/1986','%d/%m/%Y'),'1DAMA');
 INSERT INTO CICLOS_ALUMNO (NOMBRE, APELLIDOS, FECHA_NACIMIENTO, CICLO) VALUES
+                                                                           ('Juan', 'Pérez', STR_TO_DATE('15/05/2000', '%d/%m/%Y'), '2DAMA'),
+                                                                           ('María', 'García', STR_TO_DATE('20/08/2001', '%d/%m/%Y'), '2DAMA'),
+                                                                           ('Carlos', 'López', STR_TO_DATE('10/12/1999', '%d/%m/%Y'), '2DAMA'),
+                                                                           ('Ana', 'Martínez', STR_TO_DATE('05/03/2002', '%d/%m/%Y'), '2DAMA'),
+                                                                           ('Luis', 'Rodríguez', STR_TO_DATE('25/07/2000', '%d/%m/%Y'), '2DAMA');
+INSERT INTO CICLOS_ALUMNO (NOMBRE, APELLIDOS, FECHA_NACIMIENTO, CICLO) VALUES
                                                                            ('Juan', 'Pérez', STR_TO_DATE('15/05/2000', '%d/%m/%Y'), '1SMRA'),
                                                                            ('María', 'García', STR_TO_DATE('20/08/2001', '%d/%m/%Y'), '1SMRA'),
                                                                            ('Carlos', 'López', STR_TO_DATE('10/12/1999', '%d/%m/%Y'), '1SMRA'),
                                                                            ('Ana', 'Martínez', STR_TO_DATE('05/03/2002', '%d/%m/%Y'), '1SMRA'),
                                                                            ('Luis', 'Rodríguez', STR_TO_DATE('25/07/2000', '%d/%m/%Y'), '1SMRA');
+
 
 SELECT * FROM CICLOS_ALUMNO;
 /*TRIMESTRE*/

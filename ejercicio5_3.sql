@@ -1,7 +1,7 @@
 -- ---------CICLOS-------------
 /*1. Selecciona aquellos módulos que estén repetidos en más de un ciclo y
 el número de veces que se repiten ordenados por nombre.*/
-SELECT NOMBRE, COUNT(*)
+SELECT NOMBRE, COUNT(*) nºrepeticiones
 FROM CICLOS_MODULO
 GROUP BY NOMBRE
 HAVING COUNT(*)>1
@@ -9,17 +9,34 @@ ORDER BY nombre;
 /*2. Obtén el número de alumnos matriculados en cada curso (usa join si
 hay más de una tabla) y, además, el nombre de su tutor. Ten en cuenta
 que si el curso no tiene tutor, también deberá salir, ordena por curso.*/
--- Como full join no está en mySql utilizaré el WHERE
-SELECT COUNT(*)
-FROM CICLOS_CURSO
-FULL JOIN CICLOS_ALUMNO
-ON CICLOS_=CICLOS_ALUMNO.CICLO ;
+
+
+SELECT curso.ABREVIATURA, COUNT(*) AS 'Número de Alumnos', modulo.profesor AS 'Tutor'
+FROM CICLOS_CURSO curso
+JOIN CICLOS_ALUMNO alumno ON alumno.CICLO = curso.ABREVIATURA
+LEFT JOIN CICLOS_MODULO modulo ON curso.ABREVIATURA = modulo.curso AND modulo.nombre = 'Tutoría'
+GROUP BY curso.ABREVIATURA, modulo.profesor
+ORDER BY curso.ABREVIATURA;
+
 
 
 /*3. De cada departamento, muestra a su jefe y el nº de profesores que
 tiene.*/
+
+SELECT departamento.NOMBRE, departamento.JEFE, COUNT(*) 'Contador'
+FROM CICLOS_DEPARTAMENTO departamento
+JOIN CICLOS_PROFESORES profesores ON departamento.NOMBRE=profesores.DEPARTAMENTO
+GROUP BY departamento.NOMBRE,departamento.JEFE;
+
 /*4. Muestra las notas del periodo 1 que faltan por introducir por alumno y
 módulo.*/
+
+SELECT alumno.NOMBRE, modulo.nombre, notas.NOTA
+FROM CICLOS_MODULO modulo
+RIGHT JOIN CICLOS_NOTAS_MODULO notas ON modulo.codigo = notas.MODULO
+RIGHT JOIN CICLOS_ALUMNO alumno ON notas.ALUMNO = alumno.NIA;
+
+
 
 -- -------CONCESIONARIO-----------
 /*1. Visualiza las ventas de todos los concesionarios, incluso aquellos que
