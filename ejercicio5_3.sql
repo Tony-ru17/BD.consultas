@@ -31,10 +31,16 @@ GROUP BY departamento.NOMBRE,departamento.JEFE;
 /*4. Muestra las notas del periodo 1 que faltan por introducir por alumno y
 módulo.*/
 
-SELECT alumno.NOMBRE, modulo.nombre, notas.NOTA
-FROM CICLOS_MODULO modulo
-RIGHT JOIN CICLOS_NOTAS_MODULO notas ON modulo.codigo = notas.MODULO
-RIGHT JOIN CICLOS_ALUMNO alumno ON notas.ALUMNO = alumno.NIA;
+/*4. Muestra las notas del periodo 1 que faltan por introducir por alumno y
+módulo.*/
+
+SELECT CONCAT(alumno.NOMBRE,' ',alumno.APELLIDOS), modulo.nombre, notas.NOTA
+FROM CICLOS_ALUMNO alumno
+CROSS JOIN CICLOS_MODULO modulo
+LEFT JOIN CICLOS_EVALUACION notas ON alumno.NIA = notas.ALUMNO AND alumno.CICLO=modulo.nombre AND notas.EVALUACION = 1
+WHERE notas.NOTA IS NULL
+ORDER BY CONCAT(alumno.NOMBRE,' ',alumno.APELLIDOS);
+
 
 
 
