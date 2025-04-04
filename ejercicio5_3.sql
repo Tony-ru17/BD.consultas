@@ -29,17 +29,18 @@ JOIN CICLOS_PROFESORES profesores ON departamento.NOMBRE=profesores.DEPARTAMENTO
 GROUP BY departamento.NOMBRE,departamento.JEFE;
 
 /*4. Muestra las notas del periodo 1 que faltan por introducir por alumno y
-módulo.*/
+
 
 /*4. Muestra las notas del periodo 1 que faltan por introducir por alumno y
 módulo.*/
 
-SELECT CONCAT(alumno.NOMBRE,' ',alumno.APELLIDOS), modulo.nombre, notas.NOTA
+SELECT CONCAT(alumno.NOMBRE, ' ', alumno.APELLIDOS) AS Alumno, modulo.nombre AS Modulo
 FROM CICLOS_ALUMNO alumno
-CROSS JOIN CICLOS_MODULO modulo
-LEFT JOIN CICLOS_EVALUACION notas ON alumno.NIA = notas.ALUMNO AND alumno.CICLO=modulo.nombre AND notas.EVALUACION = 1
+JOIN CICLOS_CURSO curso ON alumno.CICLO = curso.ABREVIATURA
+JOIN CICLOS_MODULO modulo ON curso.ABREVIATURA = modulo.curso
+LEFT JOIN CICLOS_EVALUACION notas ON alumno.NIA = notas.ALUMNO AND modulo.codigo = notas.MODULO AND notas.EVALUACION = 1
 WHERE notas.NOTA IS NULL
-ORDER BY CONCAT(alumno.NOMBRE,' ',alumno.APELLIDOS);
+ORDER BY CONCAT(alumno.NOMBRE, ' ', alumno.APELLIDOS);
 
 
 
@@ -48,12 +49,29 @@ ORDER BY CONCAT(alumno.NOMBRE,' ',alumno.APELLIDOS);
 /*1. Visualiza las ventas de todos los concesionarios, incluso aquellos que
 no hayan vendido ningún coche, ordenados por número de ventas de
 forma descendente y por nombre de concesionario.*/
+
+SELECT SUM(distribucion.CANTIDAD) 'Total coches vendidos', conce.NOMBRE AS CONCESIONARIO
+FROM conce_distribucion distribucion
+JOIN conce_concesionario conce ON distribucion.CONCESIONARIO=conce.CIF
+GROUP BY distribucion.CONCESIONARIO
+ORDER BY `Total coches vendidos` DESC;
+
+
+
 /*2. Visualiza el número de coches vendidos, incluso para aquellos coches
 que no hayan sido vendidos nunca ordenado descendentemente por el
 total de coches y por el coche.*/
+
+SELECT SUM(distribucion.CANTIDAD) 'Total coches vendidos', coche.NOMBRE AS Coche
+FROM conce_distribucion distribucion
+JOIN conce_coche coche ON distribucion.COCHE=coche.CODIGO
+GROUP BY distribucion.COCHE
+ORDER BY `Total coches vendidos` DESC;
+
 /*3. Queremos saber el stock total de cada concesionario (es decir, la
 cantidad total de coches distribuidos), incluso aquellos que no tengan
 Stock ordenado de mayor a menor stock.*/
+
 /*4.De la consulta anterior:
     a. Filtrar aquellos concesionarios que no tengan stock
     b. Filtrar aquellos concesionarios cuyo stock sea mayor o igual a 20.*/
