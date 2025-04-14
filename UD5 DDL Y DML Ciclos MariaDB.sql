@@ -9,9 +9,11 @@ CREATE TABLE CICLOS_CICLO (
 
 CREATE TABLE CICLOS_CURSO (
     numero DECIMAL(1),
-    grupo VARCHAR(4), 
+    grupo VARCHAR(4),
     codigo_ciclo DECIMAL(5,0) NOT NULL,
     abreviatura VARCHAR(50),
+    numero_curso NUMERIC(1),
+
     CONSTRAINT FK_CODIGO_CICLO FOREIGN KEY (codigo_ciclo) REFERENCES CICLOS_CICLO(codigo),
     CONSTRAINT PK_CURSO PRIMARY KEY (numero, grupo, codigo_ciclo)
 );
@@ -54,7 +56,7 @@ CREATE TABLE CICLOS_IMPARTIR (
     CONSTRAINT FK_MODULO FOREIGN KEY (codigo_modulo) REFERENCES CICLOS_MODULO(cod_modulo),
     CONSTRAINT CK_HORAS CHECK( numero_horas_semanales > 0),
     CONSTRAINT FK_CURSO FOREIGN KEY (codigo_ciclo, numero_curso, grupo_curso) REFERENCES CICLOS_CURSO (codigo_ciclo, numero, grupo), 
-    CONSTRAINT PK_IMPARTIR PRIMARY KEY (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso)
+    CONSTRAINT PK_IMPARTIR PRIMARY KEY (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso,dni_profesor)
 );
 
 
@@ -105,8 +107,8 @@ ALTER TABLE CICLOS_MODULO ADD (CONSTRAINT CK_horas_totales_correctas CHECK (nume
 ALTER TABLE CICLOS_DEPARTAMENTO ADD (CONSTRAINT UK_nombre UNIQUE (nombre));
 
 
---INSERCIÓN DE DATOS
---Tabla Ciclos
+-- INSERCIÓN DE DATOS
+-- Tabla Ciclos
 INSERT INTO CICLOS_CICLO
 VALUES (1, 'CFGM SMR', 'Sistemas microinformáticos y redes');
 INSERT INTO CICLOS_CICLO
@@ -118,11 +120,11 @@ VALUES (4, 'CFGS DAM', 'Desarrollo de Aplicaciones Multiplataforma');
 INSERT INTO CICLOS_CICLO
 VALUES (5, 'Curso especialización de videojuegos', 'Curso de especialización de videojuegos y realidad virtual');
 
---Tabla Curso
+-- Tabla Curso
 INSERT INTO CICLOS_CURSO (numero,codigo_ciclo,grupo,abreviatura) VALUES (1, 1, 'A', '1SMRA');
 INSERT INTO CICLOS_CURSO (numero,codigo_ciclo,grupo,abreviatura) VALUES (1,1,'B','1SMRB');
 insert into CICLOS_CURSO (numero,codigo_ciclo,grupo,abreviatura) values (1, 1, 'C', '1SMRC');
-INSERT INTO CICLOS_CURSO (numero, grupo_curso, codigo_ciclo, abreviatura) VALUES ( 2, 'B', 1, '2SMRB');
+INSERT INTO CICLOS_CURSO (numero, grupo, codigo_ciclo, abreviatura) VALUES ( 2, 'B', 1, '2SMRB');
 INSERT INTO CICLOS_CURSO (codigo_ciclo, numero, grupo, abreviatura) VALUES (1,  2, 'C','2SMRC');
 INSERT INTO CICLOS_CURSO (numero, grupo, codigo_ciclo, abreviatura) VALUES (1, 'A', 4, '1DAM');
 
@@ -134,16 +136,16 @@ INSERT INTO CICLOS_CURSO (codigo_ciclo,numero, grupo, abreviatura) VALUES(3, 1, 
 INSERT INTO CICLOS_CURSO (numero, grupo, codigo_ciclo, abreviatura) VALUES (1, 'A', 3, '1DAW');
 INSERT INTO CICLOS_CURSO (codigo_ciclo,grupo,numero, abreviatura) VALUES(2,'A',1,'1ASIRA');
 
---Tabla Módulo 
---1ºSMR
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales) VALUES ('0221', 'Montaje y mantenimiento de equipos', 224);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales) VALUES ('0225', 'Redes locales', 224);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales) VALUES ('0223', 'Aplicaciones ofimáticas', 224);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales) VALUES ('0222', 'Sistemas operativos monopuesto', 128);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales) VALUES ('0229', 'Formación y Orientación Laboral', 96);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales) VALUES ('CV0001', 'Inglés Técnico I-M', 64);
+-- Tabla Módulo
+-- 1ºSMR
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) VALUES ('0221', 'Montaje y mantenimiento de equipos', 224);
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) VALUES ('0225', 'Redes locales', 224);
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) VALUES ('0223', 'Aplicaciones ofimáticas', 224);
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) VALUES ('0222', 'Sistemas operativos monopuesto', 128);
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) VALUES ('0229', 'Formación y Orientación Laboral', 96);
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) VALUES ('CV0001', 'Inglés Técnico I-M', 64);
 
---2ºSMR
+-- 2ºSMR
 INSERT INTO CICLOS_MODULO VALUES ('0224', 'Sistemas operativos en red', 176);
 INSERT INTO CICLOS_MODULO VALUES ('0226', 'Seguridad informática', 110);
 INSERT INTO CICLOS_MODULO VALUES ('0227', 'Servicios en red', 176);
@@ -152,7 +154,7 @@ INSERT INTO CICLOS_MODULO VALUES ('0230', 'Empresa e iniciativa emprendedora', 6
 INSERT INTO CICLOS_MODULO VALUES ('CV0002', 'Inglés Técnico II-M', 44);
 INSERT INTO CICLOS_MODULO VALUES ('0231', 'Formación en Centros de Trabajo', 380);
 
---1ºDAM
+-- 1ºDAM
 INSERT INTO CICLOS_MODULO VALUES ('0373','Lenguajes de marcas y sistemas de gestión de información',96);
 INSERT INTO CICLOS_MODULO VALUES ('0483','Sistemas informáticos',160);
 INSERT INTO CICLOS_MODULO VALUES ('0484','Bases de Datos',160);
@@ -161,7 +163,7 @@ INSERT INTO CICLOS_MODULO VALUES ('0487','Entornos de desarrollo',96);
 INSERT INTO CICLOS_MODULO VALUES ('0493','Formación y Orientación Laboral',96);
 INSERT INTO CICLOS_MODULO VALUES ('CV0003','Inglés Técnico I-S',96);
 
---2ºDAM
+-- 2ºDAM
 insert into CICLOS_MODULO values ('CV0004','Inglés Técnico II-S',120);
 insert into CICLOS_MODULO values ('0490','Programación de servicios y procesos',60);
 insert into CICLOS_MODULO values ('0494','Empresa e iniciativa emprendedora',60);
@@ -172,64 +174,64 @@ insert into CICLOS_MODULO values ('0488','Desarrollo de interfaces',120);
 INSERT INTO CICLOS_MODULO VALUES ('0495', 'Formación en Centros de Trabajo', 400);
 INSERT INTO CICLOS_MODULO VALUES ('0492', 'Proyecto de desarrollo de aplicaciones Multiplataforma', 40);
 
---1ºDAW
---Son los mismos que 1ºDAM
+-- 1ºDAW
+-- Son los mismos que 1ºDAM
 INSERT INTO CICLOS_MODULO VALUES ('0617','Formación y Orientación Laboral',96);
 
---2ºDAW
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+-- 2ºDAW
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0612', 'Desarrollo web en entorno cliente', 140);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0613', 'Desarrollo en entorno servidor', 160);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0614', 'Despliegue de aplicaciones web', 80);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0615', 'Diseño de interfaces web', 120);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0618', 'Empresa e iniciativa emprendedora', 60);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0616', 'Proyecto de desarrollo de aplicaciones', 40);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0619', 'Formación en Centros de Trabajo', 400);
 
---1ºASIR
+-- 1ºASIR
 INSERT INTO CICLOS_MODULO VALUES('0370','Planificación de sistemas operativos' , 192);
 INSERT INTO CICLOS_MODULO VALUES('0369','Implantación de sistemas operativos' , 224);
 INSERT INTO CICLOS_MODULO VALUES('0371','Fundamentos de Hardware' , 96);
 INSERT INTO CICLOS_MODULO VALUES('0372','Gestión de bases de datos' , 160);
 INSERT INTO CICLOS_MODULO VALUES('0380','Formación y orientación laboral' , 96);
 
---2ºASIR
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+-- 2ºASIR
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0374','Administración de sistemas operativos',120);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0375','Servicios de red e Internet',120);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0376','Implantación de aplicaciones web',100);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0377','Administración de sistemas gestores de bases de datos',60);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0378','Seguridad y alta disponibilidad',100);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0381','Empresa e iniciativa emprendedora',60);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0382','Formación en centros de trabajo',400);
-INSERT INTO CICLOS_MODULO (codigo, nombre, numero_horas_totales)
+INSERT INTO CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales)
 VALUES ('0379','Proyecto de administración de sistemas informáticos en red',40);
 
---Especialización de videojuegos
-insert into CICLOS_MODULO (codigo, nombre, numero_horas_totales) values(5048,'Programación y motores de viedojuegos',150);
-insert into CICLOS_MODULO (codigo, nombre, numero_horas_totales) values(5049,'Diseño gráfico 2D y 3D ',150);
-insert into CICLOS_MODULO (codigo, nombre, numero_horas_totales) values(5050,'Programación en red e inteligencia artifical ',150);
-insert into CICLOS_MODULO (codigo, nombre, numero_horas_totales) values(5051,'Realidad virtual y realidad aumentada',150);
-insert into CICLOS_MODULO (codigo, nombre, numero_horas_totales) values(5052,'Gestión, publicación y producción',150);
+-- Especialización de videojuegos
+insert into CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) values(5048,'Programación y motores de viedojuegos',150);
+insert into CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) values(5049,'Diseño gráfico 2D y 3D ',150);
+insert into CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) values(5050,'Programación en red e inteligencia artifical ',150);
+insert into CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) values(5051,'Realidad virtual y realidad aumentada',150);
+insert into CICLOS_MODULO (cod_modulo, nombre, numero_horas_totales) values(5052,'Gestión, publicación y producción',150);
 
 -- Inserciones de los departamentos
 INSERT INTO CICLOS_DEPARTAMENTO (codigo, nombre) VALUES (1, 'Informática');
 INSERT INTO CICLOS_DEPARTAMENTO (codigo, nombre)  VALUES (2, 'Inglés');
 INSERT INTO CICLOS_DEPARTAMENTO (codigo, nombre)  VALUES (3, 'FOL');
 
---Tabla Profesor
+-- Tabla Profesor
 INSERT INTO CICLOS_PROFESOR(dni, nombre, email, telefono,fecha_nacimiento, departamento) 
 VALUES (11111111, 'José Manuel Cano', 'josemanuelcano.ingles@iespacomolla.es', 644857468, STR_TO_DATE('14/06/1975','%d/%m/%Y'),2);
 INSERT INTO CICLOS_PROFESOR(dni, nombre, email, telefono,fecha_nacimiento, departamento) 
@@ -298,8 +300,8 @@ UPDATE CICLOS_DEPARTAMENTO SET jefe_departamento = '11111133' WHERE codigo = 1;
 UPDATE CICLOS_DEPARTAMENTO SET jefe_departamento = '11111111' WHERE codigo = 2;
 UPDATE CICLOS_DEPARTAMENTO SET jefe_departamento = '11111125' WHERE codigo = 3;
 
---Tabla Impartir
---1ºSMA
+-- Tabla Impartir
+-- 1ºSMA
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
 VALUES ('0221', 1, 1, 'A', '11111116', 7);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
@@ -313,7 +315,7 @@ VALUES ('0229', 1, 1, 'A', '11111112', 3);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
 VALUES ('CV0001', 1, 1, 'A', '11111111', 2);
 
---1ºSMRC
+-- 1ºSMRC
 insert into CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
 values ('0221', 1, 1, 'C', '11111122', 7);
 insert into CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
@@ -327,7 +329,7 @@ values ('0229', 1, 1, 'C', '11111117', 3);
 insert into CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
 values ('CV0001', 1, 1, 'C', '11111111', 2);
 
---2ºSMRB
+-- 2ºSMRB
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
 VALUES ('CV0002', 1, 2, 'B', '11111111', 2);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
@@ -342,7 +344,7 @@ INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_cu
 VALUES ('0227', 1, 2, 'B', '11111128', 8);
 
 
---2ºSMRC
+-- 2ºSMRC
 INSERT INTO CICLOS_IMPARTIR VALUES('CV0002', 1, 2, 'C', '11111111', 2);
 INSERT INTO CICLOS_IMPARTIR VALUES('0224', 1, 2, 'C', '11111120', 8);
 INSERT INTO CICLOS_IMPARTIR VALUES('0226', 1, 2, 'C', '11111126', 5);
@@ -350,7 +352,7 @@ INSERT INTO CICLOS_IMPARTIR VALUES('0227', 1, 2, 'C', '11111128', 8);
 INSERT INTO CICLOS_IMPARTIR VALUES('0228', 1, 2, 'C', '11111126', 4);
 INSERT INTO CICLOS_IMPARTIR VALUES('0230', 1, 2, 'C', '11111117', 3);
 
---1ºDAM
+-- 1ºDAM
 INSERT INTO CICLOS_IMPARTIR VALUES ('0373',4,1,'A','11111130',3);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0483',4,1,'A','11111116',5);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0484',4,1,'A','11111130',5);
@@ -359,7 +361,7 @@ INSERT INTO CICLOS_IMPARTIR VALUES ('0487',4,1,'A','11111134',3);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0493',4,1,'A','11111112',3);
 INSERT INTO CICLOS_IMPARTIR VALUES ('CV0003',4,1,'A','11111135',3);
 
---2ºDAM
+-- 2ºDAM
 INSERT INTO CICLOS_IMPARTIR VALUES ('CV0004',4,2,'A','11111135',2);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0490',4,2,'A','11111124',3);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0494',4,2,'A','11111112',3);
@@ -369,7 +371,7 @@ INSERT INTO CICLOS_IMPARTIR VALUES ('0486',4,2,'A','11111134',6);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0488',4,2,'A','11111136',6);
 
 
---1ºASIR
+-- 1ºASIR
 
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo,codigo_ciclo,numero_curso,grupo_curso,dni_profesor,numero_horas_semanales)
 VALUES ('0374',2,1,'A','11111132',6);
@@ -386,7 +388,7 @@ VALUES ('0381',2,1,'A','11111112',3);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo,codigo_ciclo,numero_curso,grupo_curso,dni_profesor,numero_horas_semanales)
 VALUES ('CV0004',2,1,'A','11111111',2);
 
---2ºASIR
+-- 2ºASIR
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo,codigo_ciclo,numero_curso,grupo_curso,dni_profesor,numero_horas_semanales)
 VALUES ('0374',2,2,'A','11111132',6);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo,codigo_ciclo,numero_curso,grupo_curso,dni_profesor,numero_horas_semanales)
@@ -402,7 +404,7 @@ VALUES ('0381',2,2,'A','11111125',3);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo,codigo_ciclo,numero_curso,grupo_curso,dni_profesor,numero_horas_semanales)
 VALUES ('CV0004',2,2,'A','11111111',2);
 
---1ºDAW semi
+-- 1ºDAW semi
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales) VALUES ('0373', 3, 1, 'Sem', '11111130', 3);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales) VALUES ('0493', 3, 1, 'Sem', '11111117', 3);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales) VALUES ('0487', 3, 1, 'Sem', '11111143', 3);
@@ -411,7 +413,7 @@ INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_cu
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales) VALUES ('0483', 3, 1, 'Sem', '11111127', 5);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales) VALUES ('0485', 3, 1, 'Sem', '11111141', 8);
 
---1ºDAW
+-- 1ºDAW
 INSERT INTO CICLOS_IMPARTIR VALUES ('0373',3,1,'A','11111137',3);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0483',3,1,'A','11111139',5);
 INSERT INTO CICLOS_IMPARTIR VALUES ('0484',3,1,'A','11111140',5);
@@ -421,7 +423,7 @@ INSERT INTO CICLOS_IMPARTIR VALUES ('0617',3,1,'A','11111117',3);
 INSERT INTO CICLOS_IMPARTIR VALUES ('CV0003',3,1,'A','11111138',3);
 
 
---2ºDAW
+-- 2ºDAW
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
 VALUES ('CV0004', 3, 2, 'A', '11111138', 2);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
@@ -435,7 +437,7 @@ VALUES ('0612', 3, 2, 'A', '11111142', 7);
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, dni_profesor, numero_horas_semanales)
 VALUES ('0613', 3, 2, 'A', '11111137', 7);
 
---Curso de especialización
+-- Curso de especialización
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso,numero_horas_semanales,dni_profesor) VALUES(5049,5,1,'A',5,'11111136');
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso,numero_horas_semanales,dni_profesor) VALUES(5049,5,1,'A',5,'11111144');
 INSERT INTO CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso,numero_horas_semanales,dni_profesor) VALUES(5052,5,1,'A',4,'11111142');
@@ -448,7 +450,7 @@ insert into CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_cu
 insert into CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, numero_horas_semanales, dni_profesor) values (5050, 5, 1, 'A', 3, '11111121');
 insert into CICLOS_IMPARTIR (codigo_modulo, codigo_ciclo, numero_curso, grupo_curso, numero_horas_semanales, dni_profesor) values (5050, 5, 1, 'A', 3, '11111144');
 
---Tabla Alumno
+-- Tabla Alumno
 INSERT INTO CICLOS_ALUMNO VALUES('33111118', 'Sergey Brin', 'sergeybrin.alu@iespacomolla.es', STR_TO_DATE('25/06/1999', '%d/%m/%Y'), 644985214, 1, 2, 'C');
 INSERT INTO CICLOS_ALUMNO VALUES('33111133', 'Juan Pablo Sierra', 'juanpablosierra.alu@iespacomolla.es', STR_TO_DATE('14/08/2000', '%d/%m/%Y'), 644974522, 1, 2, 'C');
 INSERT INTO CICLOS_ALUMNO VALUES('33100951', 'Diana Soriano', 'dianasoriano.alu@iespacomolla.es', STR_TO_DATE('15/07/1999', '%d/%m/%Y'), 644914575, 1, 2, 'C');
@@ -493,26 +495,26 @@ INSERT INTO CICLOS_ALUMNO(dni,nombre,email,fecha_nacimiento,codigo_ciclo) VALUES
 INSERT INTO CICLOS_ALUMNO (dni, nombre, fecha_nacimiento, email, telefono, codigo_ciclo, numero_curso, grupo_curso) VALUES ('21111123', 'Linus Torvalds', STR_TO_DATE( '11/08/1983' ,'%d/%m/%Y'), 'linus@gmail.com', 611111110, 3, 1, 'Sem' );
 INSERT INTO CICLOS_ALUMNO (dni, nombre, fecha_nacimiento, email, telefono, codigo_ciclo, numero_curso, grupo_curso) VALUES ('12111124', 'Jose Raul', STR_TO_DATE('22/02/1969' ,'%d/%m/%Y'), 'Jose_3@gmail.com', 617715163, 3, 1, 'Sem');
 INSERT INTO CICLOS_ALUMNO (dni, nombre, fecha_nacimiento, email, telefono, codigo_ciclo, numero_curso, grupo_curso) VALUES ('12111113', 'Pedro León', STR_TO_DATE('16/02/1995' ,'%d/%m/%Y'), 'pedro_3@gmail.com', 611515163, 3, 1, 'Sem');
-INSERT INTO CICLOS_ALUMNO(dni, nombre, fecha_nacimiento, email, telefono,numero_curso, grupo_curso,codigo_ciclo) VALUES('15111122','Alan Turing','alanturing@iespacolla.es', STR_TO_DATE('30/12/1986','%d/%m/%Y'),1,'A',3);
-INSERT INTO CICLOS_ALUMNO(dni, nombre, fecha_nacimiento, email, telefono,numero_curso, grupo_curso,codigo_ciclo) VALUES('15111156','Manolo Sanz','manolosanz@iespacolla.es', STR_TO_DATE('28/02/1997','%d/%m/%Y'),1,'A',3);
-INSERT INTO CICLOS_ALUMNO(dni, nombre, fecha_nacimiento, email, telefono,numero_curso, grupo_curso,codigo_ciclo) VALUES('15111115','Alfonso García','alfonsogarcia@iespacolla.es', STR_TO_DATE('13/08/1995','%d/%m/%Y'),1,'A',3);
+INSERT INTO CICLOS_ALUMNO(dni, nombre, email, fecha_nacimiento, telefono,numero_curso, grupo_curso,codigo_ciclo) VALUES('15111122','Alan Turing','alanturing@iespacolla.es', STR_TO_DATE('30/12/1986','%d/%m/%Y'),621221353,1,'A',3);
+INSERT INTO CICLOS_ALUMNO(dni, nombre, email, fecha_nacimiento, telefono,numero_curso, grupo_curso,codigo_ciclo) VALUES('15111156','Manolo Sanz','manolosanz@iespacolla.es', STR_TO_DATE('28/02/1997','%d/%m/%Y'),643742389,1,'A',3);
+INSERT INTO CICLOS_ALUMNO(dni, nombre, email, fecha_nacimiento, telefono,numero_curso, grupo_curso,codigo_ciclo) VALUES('15111115','Alfonso García','alfonsogarcia@iespacolla.es', STR_TO_DATE('13/08/1995','%d/%m/%Y'),645128787,1,'A',3);
 INSERT INTO CICLOS_ALUMNO (dni, nombre,fecha_nacimiento,numero_curso, grupo_curso,codigo_ciclo,email) VALUES ('12111117','Iván Ayuso',STR_TO_DATE('08/12/1999','%d/%m/%Y'),1,'B',1,'ivan@fallodeisaac.com');
 INSERT INTO CICLOS_ALUMNO (dni, nombre,fecha_nacimiento,numero_curso, grupo_curso,codigo_ciclo,email) VALUES ('12111118','Diana Cubí',STR_TO_DATE('15/07/1999','%d/%m/%Y'),1,'B',1,'diana@fallodeisaac.com');
 INSERT INTO CICLOS_ALUMNO (dni, nombre,fecha_nacimiento,numero_curso, grupo_curso,codigo_ciclo,email) VALUES ('11111116','Steve Jobs',STR_TO_DATE('12/12/1998','%d/%m/%Y'),1,'B',1,'steve@fallodeisaac.com');
 
---alumnos no matriculados este año
+-- alumnos no matriculados este año
 INSERT INTO CICLOS_ALUMNO VALUES('33111129', 'Hedy Lamarr', 'hedylamarr.alu@iespacomolla.es', STR_TO_DATE('03/11/2002', '%d/%m/%Y'), 644885314, null, null, null);
 INSERT INTO CICLOS_ALUMNO VALUES('33111130', 'Joan Clarke', 'joanclarke.alu@iespacomolla.es', STR_TO_DATE('19/11/1998', '%d/%m/%Y'), 645668855, null, null, null);
 INSERT INTO CICLOS_ALUMNO VALUES('33111131', 'Grace Hopper', 'gracehopper@gmail.com', STR_TO_DATE('20/07/2003', '%d/%m/%Y'), 644741124, null, null, null);
 INSERT INTO CICLOS_ALUMNO VALUES('33111132', 'Radia Perlman', 'radiaperlman@hotmail.es', STR_TO_DATE('12/03/2003', '%d/%m/%Y'), 644996321, null, null, null);
 
 
---Tabla Trimestre
+-- Tabla Trimestre
 INSERT INTO CICLOS_TRIMESTRE VALUES(1, '1er trimestre 22/23', STR_TO_DATE('22/12/2022', '%d/%m/%Y'));
 INSERT INTO CICLOS_TRIMESTRE VALUES(2, '2º trimestre 22/23', STR_TO_DATE('16/03/2023', '%d/%m/%Y'));
 INSERT INTO CICLOS_TRIMESTRE VALUES(3, '3er trimestre 22/23', STR_TO_DATE('19/06/2023', '%d/%m/%Y'));
 
---Tabla Evaluación
+-- Tabla Evaluación
 
 INSERT INTO CICLOS_EVALUACION VALUES('33111118', '0226', 1, 6.7);
 INSERT INTO CICLOS_EVALUACION VALUES('33111118', '0227', 1, 5.35);
@@ -533,7 +535,7 @@ VALUES ('3511111133', '0225', 1, 8);
 INSERT INTO CICLOS_EVALUACION 
 VALUES ('3511111134', '0223', 1, 8);
 
-INSERT INTO CICLOS_EVALUACION VALUES ('11111115','0484',1,9);
+INSERT INTO CICLOS_EVALUACION VALUES ('11111120','0484',1,9);
 INSERT INTO CICLOS_EVALUACION VALUES ('11167115','0484',1,6); 
 INSERT INTO CICLOS_EVALUACION VALUES ('11115515','0484',1,3);
 
@@ -541,15 +543,16 @@ insert into CICLOS_EVALUACION values ('32111111', '0221', 3, 8.5);
 insert into CICLOS_EVALUACION  values ('33111111', '0223', 3, 3.2);
 insert into CICLOS_EVALUACION  values ('31111111', '0225', 3, 6.7);
 
+SELECT * FROM CICLOS_ALUMNO;
 INSERT INTO CICLOS_EVALUACION VALUES ('11111111','0494',1,5);
-INSERT INTO CICLOS_EVALUACION VALUES ('11111112','0494',1,7); 
-INSERT INTO CICLOS_EVALUACION VALUES ('11111113','0494',1,2);
+INSERT INTO CICLOS_EVALUACION VALUES ('11111114','0494',1,7);
+INSERT INTO CICLOS_EVALUACION VALUES ('11111116','0494',1,2);
 INSERT INTO CICLOS_EVALUACION VALUES ('11111111','0488',1,2);
-INSERT INTO CICLOS_EVALUACION VALUES ('11111112','0488',1,5); 
-INSERT INTO CICLOS_EVALUACION VALUES ('11111113','0488',1,6);
+INSERT INTO CICLOS_EVALUACION VALUES ('11111114','0488',1,5);
+INSERT INTO CICLOS_EVALUACION VALUES ('11111116','0488',1,6);
 INSERT INTO CICLOS_EVALUACION VALUES ('11111111','0486',1,8);
-INSERT INTO CICLOS_EVALUACION VALUES ('11111112','0486',1,9); 
-INSERT INTO CICLOS_EVALUACION VALUES ('11111113','0486',1,3);
+INSERT INTO CICLOS_EVALUACION VALUES ('11111114','0486',1,9);
+INSERT INTO CICLOS_EVALUACION VALUES ('11111116','0486',1,3);
 INSERT INTO CICLOS_EVALUACION 
 VALUES ('45111126','0374',3,9);
 INSERT INTO CICLOS_EVALUACION 
@@ -607,9 +610,9 @@ INSERT INTO CICLOS_EVALUACION  VALUES ('12111118','0229','1',10);
 INSERT INTO CICLOS_EVALUACION  VALUES ('12111118','CV0001','1',3);
 
 
---UPDATE CICLOS_CURSO para insertar al tutor
+-- UPDATE CICLOS_CURSO para insertar al tutor
 UPDATE CICLOS_CURSO SET tutor_curso=11111114 WHERE codigo_ciclo = 1 AND numero= 1 AND grupo = 'A';
-UPDATE CICLOS_CURSO SET tutor_curso=11111128 WHERE numero=2 AND grupo_curso='C' AND codigo_ciclo=1;
+UPDATE CICLOS_CURSO SET tutor_curso=11111128 WHERE numero=2 AND grupo='C' AND codigo_ciclo=1;
 UPDATE CICLOS_CURSO SET tutor_curso=11111134 WHERE numero=1 AND codigo_ciclo=4 AND grupo='A'; 
 update CICLOS_CURSO set tutor_curso=11111118 where abreviatura='1SMRC';
 update CICLOS_CURSO set tutor_curso=11111136 where numero=2 and codigo_ciclo=4 and grupo='A';
@@ -618,7 +621,7 @@ UPDATE CICLOS_CURSO SET tutor_curso=11111127 WHERE numero=2 and grupo='B' and co
 UPDATE CICLOS_CURSO SET tutor_curso=11111139 WHERE codigo_ciclo=5;
 UPDATE CICLOS_CURSO SET tutor_curso=11111143 WHERE numero=1 AND codigo_ciclo=3 AND grupo='Sem'; 
 UPDATE CICLOS_CURSO SET tutor_curso=11111141 WHERE numero=1 AND codigo_ciclo=3 AND grupo='A';
---UPDATE CICLOS_PROFESOR, fechas de nacimiento
+-- UPDATE CICLOS_PROFESOR, fechas de nacimiento
 UPDATE CICLOS_PROFESOR SET fecha_nacimiento=STR_TO_DATE('15/12/1966','%d/%m/%Y') WHERE dni=11111111;
 UPDATE CICLOS_PROFESOR SET fecha_nacimiento=STR_TO_DATE('04/12/1977','%d/%m/%Y') WHERE dni=11111117;
 UPDATE CICLOS_PROFESOR SET fecha_nacimiento=STR_TO_DATE('06/02/1966','%d/%m/%Y') WHERE dni=11111126;
@@ -634,7 +637,7 @@ update CICLOS_PROFESOR set antig=10 where departamento=1;
 update CICLOS_PROFESOR set antig=2 where departamento=2;
 
 
---COMPROBACIÓN CON SELECT
+-- COMPROBACIÓN CON SELECT
 
 SELECT *FROM CICLOS_ALUMNO;
 SELECT *FROM CICLOS_CICLO;
