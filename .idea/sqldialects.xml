@@ -3,6 +3,8 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/EJERCICIOreal.sql" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/UD5 DDL Y DML Ciclos MariaDB.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/UD5 DDL y DML Conce MariaDB.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/UD5 DDL y DML Listas MySQL MariaDB.sql" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/ciclos.sql" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/conce.sql" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/ejercicio5_2.sql" dialect="MariaDB" />
